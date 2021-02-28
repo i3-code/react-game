@@ -16,8 +16,10 @@ html {
 }
 
 body {
-  min-width: 320px;
-  min-height: 320px;
+  min-width: 500px;
+  min-height: 500px;
+  background: linear-gradient(to top, #ece9e6, $default-color);
+  background-repeat: no-repeat;
 }
 
 img {
@@ -34,52 +36,18 @@ a {
 
 .app {
   height: 100vh;
+  min-height: 500px;
+  min-width: 500px;
   padding: 0.5%;
-  background-color: $mainFontColor;
-  color: $default-color;
   user-select: none;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 }
 
-.content-div {
-  height: 32%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &.firstDiv {
-    background-image: url('../images/bg/01.jpg');
-    flex-direction: column;
-  }
-  &.secondDiv {
-    background-image: url('../images/bg/02.jpg');
-  }
-  &.thirdDiv {
-    background-image: url('../images/bg/03.jpg');
-    justify-content: space-around;
-  }
-}
-
-.content {
-  font-family: 'Montserrat';
-}
-
-.test-image, .random-image {
-  transition: $short-transition;
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-  }
-  &:active {
-    transform: scale(1);
-  }
-}
-
-.test-image {
-  width: 500px;
-}
-
-.random-image {
-  width: 160px;
+.center {
+  height: 100%;
+  width: 80%;
+  margin: 10px auto;
+  padding: 10px;
 }

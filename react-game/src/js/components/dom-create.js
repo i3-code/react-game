@@ -4,7 +4,7 @@ export default class Create {
     if (classNames) {
       const classList = classNames.split(',');
       classList.forEach((className) => {
-      element.classList.add(className.trim());
+        element.classList.add(className.trim());
       });
     }
     if (content !== '') element.innerHTML = content;

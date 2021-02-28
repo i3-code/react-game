@@ -14,6 +14,7 @@ module.exports = {
   externals: {
     paths: PATHS,
   },
+  resolve: { extensions: ['.js', '.jsx'] },
   entry: [`${PATHS.src}/index.js`],
   output: {
     filename: './js/[name].js',
@@ -34,7 +35,7 @@ module.exports = {
 
   module: {
     rules: [{
-      test: /\.js$/,
+      test: /\.(js|jsx)$/,
       loader: 'babel-loader',
       exclude: /node_modules/,
     }, {
