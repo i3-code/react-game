@@ -74,14 +74,55 @@ export default function SettingsMenu(props) {
     music,
     difficulty,
     color,
-    language,
+    locale,
+    saveSettingsCallBack,
   } = settings;
 
-  const handleClickOpen = () => {
-    setOpen(true);
+  const [soundValue, soundSetValue] = React.useState(sound.volume);
+  const [musicValue, musicSetValue] = React.useState(music.volume);
+  const [difficultyValue, difficultySetValue] = React.useState(difficulty);
+  const [colorValue, colorSetValue] = React.useState(color);
+  const [localeValue, localeSetValue] = React.useState(locale);
+
+  const handleSoundChange = (event, newValue) => {
+    soundSetValue(newValue);
   };
+
+  const handleMusicChange = (event, newValue) => {
+    const { changeCallBack } = music;
+    musicSetValue(newValue);
+    changeCallBack(newValue);
+  };
+
+  const handleDifficultyChange = (event, newValue) => {
+    if (newValue !== null) difficultySetValue(newValue);
+  };
+
+  const handleColorChange = (event, newValue) => {
+    if (newValue !== null) colorSetValue(newValue);
+  };
+
+  const handleLocaleChange = (event, newValue) => {
+    if (newValue !== null) localeSetValue(newValue);
+  };
+
+  const handleClickOpen = () => setOpen(true);
+
   const handleClose = () => {
+    if (difficultyValue !== difficulty) difficultySetValue(difficulty);
+    if (colorValue !== color) colorSetValue(color);
+    if (localeValue !== color) localeSetValue(locale);
     setOpen(false);
+  };
+
+  const handleSave = () => {
+    const newSettings = {
+      difficulty: difficultyValue,
+      color: colorValue,
+      locale: localeValue,
+    };
+    saveSettingsCallBack(newSettings);
+    handleClose();
   };
 
   const style = makeStyleFunc();
@@ -89,27 +130,27 @@ export default function SettingsMenu(props) {
   return (
     <Tooltip title="Settings">
       <div>
-        <IconButton edge="start" color={color.value} aria-label="Settings" onClick={handleClickOpen}>
+        <IconButton edge="start" color={color} aria-label="Settings" onClick={handleClickOpen}>
           <SettingsIcon />
         </IconButton>
         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="xs">
-          <DialogTitle id="customized-dialog-title" onClose={handleClose} color={color.value}>
+          <DialogTitle id="customized-dialog-title" onClose={handleClose} color={colorValue}>
             Settings
           </DialogTitle>
           <DialogContent dividers>
             <Container>
-              <SoundVolume value={sound.value} callBack={sound.callBack} color={color.value} />
-              <MusicVolume value={music.value} callBack={music.callBack} color={color.value} />
+              <SoundVolume value={soundValue} callBack={handleSoundChange} color={colorValue} />
+              <MusicVolume value={musicValue} callBack={handleMusicChange} color={colorValue} />
               <Divider className={style.divider} />
-              <Difficulty value={difficulty.value} callBack={difficulty.callBack} />
+              <Difficulty value={difficultyValue} callBack={handleDifficultyChange} />
               <Divider className={style.divider} />
-              <Color value={color.value} callBack={color.callBack} />
+              <Color value={colorValue} callBack={handleColorChange} />
               <Divider className={style.divider} />
-              <Language value={language.value} callBack={language.callBack} />
+              <Language value={localeValue} callBack={handleLocaleChange} />
             </Container>
           </DialogContent>
           <DialogActions>
-            <Button autoFocus onClick={handleClose} color={color.value}>
+            <Button autoFocus onClick={handleSave} color={colorValue}>
               Save changes
             </Button>
           </DialogActions>

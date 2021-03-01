@@ -18,7 +18,7 @@ const makeStyleFunc = makeStyles({
 export default function Bottom(props) {
   const style = makeStyleFunc();
   const { settings } = props;
-  const color = settings.color.value;
+  const { color } = settings;
   return (
     <div className={style.root}>
       <AppBar position="static" color="inherit">
