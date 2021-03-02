@@ -46,8 +46,25 @@ a {
 }
 
 .center {
+  background-color: pink;
   height: 100%;
   width: 80%;
   margin: 10px auto;
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.game-board {
+  background-color: rebeccapurple;
+}
+
+.MuiStepLabel-label	{
+  margin-top: 4px !important;
 }
