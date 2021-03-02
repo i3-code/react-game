@@ -8,14 +8,18 @@ import { Tooltip } from '@material-ui/core';
 import MusicNoteIcon from '@material-ui/icons/MusicNote';
 import MusicOffIcon from '@material-ui/icons/MusicOff';
 
+import { LOCALE } from '../../../../constants/locale';
+
 const useStyles = makeStyles({
   root: { width: '80%' },
 });
 
 function VolumeButton(props) {
-  const { value } = props;
+  const { value, localeValue } = props;
+  const locale = LOCALE[localeValue];
+
   const button = (value) ? <MusicNoteIcon /> : <MusicOffIcon />;
-  const tooltip = (value) ? 'Mute Music' : 'Enable Music';
+  const tooltip = (value) ? locale.muteMusic : locale.enableMusic;
   return (
     <Tooltip title={tooltip}>
       {button}
@@ -26,7 +30,13 @@ function VolumeButton(props) {
 export default function MusicVolume(props) {
   const classes = useStyles();
 
-  const { value, callBack, color } = props;
+  const {
+    value,
+    callBack,
+    color,
+    localeValue,
+  } = props;
+  const locale = LOCALE[localeValue];
   const [volume, setVolume] = React.useState(0);
 
   const handleVolumeSwitch = (event) => {
@@ -43,12 +53,12 @@ export default function MusicVolume(props) {
   return (
     <div className={classes.root}>
       <Typography id="continuous-slider" gutterBottom>
-        Music Volume
+        {locale.musicVolume}
       </Typography>
       <Grid container spacing={2}>
         <Grid item>
           <IconButton color={color} aria-label="Volume" onClick={handleVolumeSwitch} size="small">
-            <VolumeButton value={value} />
+            <VolumeButton value={value} localeValue={localeValue} />
           </IconButton>
         </Grid>
         <Grid item xs>

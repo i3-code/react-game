@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import useSound from 'use-sound';
 
 import musicFile from '../assets/sounds/music.mp3';
@@ -9,8 +9,8 @@ import Bottom from './components/Bottom/Bottom';
 
 const cookieVersion = 1;
 const settings = JSON.parse(localStorage.getItem('react-game-settings-2021q1')) || {
-  sound: { volume: 20 },
-  music: { volume: 10 },
+  sound: 20,
+  music: 10,
   difficulty: 0,
   color: 'primary',
   locale: 'en',
@@ -20,54 +20,53 @@ const settings = JSON.parse(localStorage.getItem('react-game-settings-2021q1')) 
   lives: 0,
   cookieVersion,
 };
-
 const savedVersion = settings.cookieVersion;
 if (savedVersion !== cookieVersion) localStorage.clear();
 
-function modSettings(oldSettings, newSettings) {
-  const objLink = oldSettings;
-  Object.entries(newSettings).forEach(([key, value]) => {
-    const origValue = objLink[key];
-    if (typeof origValue !== 'object') {
-      objLink[key] = value;
-    } else {
-      modSettings(origValue, value);
-    }
-  });
+function reducer(state, action) {
+  const { type, value } = action;
+  if (!type) throw new Error('Unknown action');
+  const newState = {
+    ...state,
+    [type]: value,
+  };
+  localStorage.setItem('react-game-settings-2021q1', JSON.stringify(newState));
+  return newState;
 }
-
-function saveSettings(newSettings) {
-  modSettings(settings, newSettings || {});
-  localStorage.setItem('react-game-settings-2021q1', JSON.stringify(settings));
-}
-settings.saveSettingsCallBack = saveSettings;
 
 export default function App() {
-  const { music } = settings;
-  const [musicValue, musicSetValue] = React.useState(music.volume);
+  const [state, dispatch] = useReducer(reducer, settings);
+  const { music } = state;
 
   const [play, { pause, isPlaying }] = useSound(musicFile, {
-    volume: musicValue / 100,
-    autoplay: true,
+    volume: music / 100,
     loop: true,
   });
 
-  const handleMusicChange = (volume) => {
-    musicSetValue(volume);
-    saveSettings({ music: { volume } });
-    if (!volume) pause();
-    if (volume && !isPlaying) play();
+  useEffect(() => {
+    if (!music) pause();
+    if (music && !isPlaying) play();
+  });
+
+  const callBacks = {
+    sound: (event, value) => dispatch({ type: 'sound', value }),
+    music: (event, value) => dispatch({ type: 'music', value }),
+    difficulty: (event, value) => dispatch({ type: 'difficulty', value }),
+    color: (event, value) => dispatch({ type: 'color', value }),
+    locale: (event, value) => dispatch({ type: 'locale', value }),
+    dispatch,
   };
 
-  useEffect(() => {
-    music.changeCallBack = handleMusicChange;
-  }, []);
+  const appSettings = {
+    settings: state,
+    callBacks,
+  };
 
   return (
     <div className="app">
-      <Top settings={settings} />
+      <Top data={appSettings} />
       <Center />
-      <Bottom settings={settings} />
+      <Bottom data={appSettings} />
     </div>
   );
 }

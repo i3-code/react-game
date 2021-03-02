@@ -4,23 +4,26 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
+import { LOCALE } from '../../../../constants/locale';
+
 export default function Language(props) {
-  const { value, callBack } = props;
+  const { value, callBack, localeValue } = props;
+  const locale = LOCALE[localeValue];
 
   return (
     <div>
       <Typography id="continuous-slider" gutterBottom>
-        Language
+        {locale.localization}
       </Typography>
       <Container>
         <ToggleButtonGroup
           value={value}
           exclusive
           onChange={callBack}
-          aria-label="english"
+          aria-label={locale.localization}
         >
-          <ToggleButton value="en" aria-label="english">english</ToggleButton>
-          <ToggleButton value="ru" aria-label="russian">russian</ToggleButton>
+          <ToggleButton value="en" aria-label={locale.english}>{locale.english}</ToggleButton>
+          <ToggleButton value="ru" aria-label={locale.russian}>{locale.russian}</ToggleButton>
         </ToggleButtonGroup>
       </Container>
     </div>

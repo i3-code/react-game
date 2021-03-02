@@ -18,6 +18,8 @@ import Difficulty from './Difficulty/Difficulty';
 import Color from './Color/Color';
 import Language from './Language/Language';
 
+import { LOCALE } from '../../../constants/locale';
+
 const styles = (theme) => ({
   root: {
     margin: 0,
@@ -68,31 +70,21 @@ const DialogActions = withStyles((theme) => ({
 
 export default function SettingsMenu(props) {
   const [open, setOpen] = React.useState(false);
-  const { settings } = props;
+  const { data } = props;
+  const { settings, callBacks } = data;
   const {
     sound,
     music,
     difficulty,
     color,
     locale,
-    saveSettingsCallBack,
   } = settings;
 
-  const [soundValue, soundSetValue] = React.useState(sound.volume);
-  const [musicValue, musicSetValue] = React.useState(music.volume);
   const [difficultyValue, difficultySetValue] = React.useState(difficulty);
   const [colorValue, colorSetValue] = React.useState(color);
   const [localeValue, localeSetValue] = React.useState(locale);
 
-  const handleSoundChange = (event, newValue) => {
-    soundSetValue(newValue);
-  };
-
-  const handleMusicChange = (event, newValue) => {
-    const { changeCallBack } = music;
-    musicSetValue(newValue);
-    changeCallBack(newValue);
-  };
+  const language = LOCALE[localeValue];
 
   const handleDifficultyChange = (event, newValue) => {
     if (newValue !== null) difficultySetValue(newValue);
@@ -121,41 +113,60 @@ export default function SettingsMenu(props) {
       color: colorValue,
       locale: localeValue,
     };
-    saveSettingsCallBack(newSettings);
-    handleClose();
+    Object.entries(newSettings).forEach(([type, value]) => callBacks.dispatch({ type, value }));
+    setOpen(false);
   };
 
   const style = makeStyleFunc();
 
   return (
-    <Tooltip title="Settings">
+    <Tooltip title={language.settings}>
       <div>
         <IconButton edge="start" color={color} aria-label="Settings" onClick={handleClickOpen}>
           <SettingsIcon />
         </IconButton>
         <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="xs">
           <DialogTitle id="customized-dialog-title" onClose={handleClose} color={colorValue}>
-            Settings
+            {language.settings}
           </DialogTitle>
           <DialogContent dividers>
             <Container>
-              <SoundVolume value={soundValue} callBack={handleSoundChange} color={colorValue} />
-              <MusicVolume value={musicValue} callBack={handleMusicChange} color={colorValue} />
+              <SoundVolume
+                value={sound}
+                callBack={callBacks.sound}
+                color={colorValue}
+                localeValue={localeValue}
+              />
+              <MusicVolume
+                value={music}
+                callBack={callBacks.music}
+                color={colorValue}
+                localeValue={localeValue}
+              />
               <Divider className={style.divider} />
-              <Difficulty value={difficultyValue} callBack={handleDifficultyChange} />
+              <Difficulty
+                value={difficultyValue}
+                callBack={handleDifficultyChange}
+                localeValue={localeValue}
+              />
               <Divider className={style.divider} />
-              <Color value={colorValue} callBack={handleColorChange} />
+              <Color value={colorValue} callBack={handleColorChange} localeValue={localeValue} />
               <Divider className={style.divider} />
-              <Language value={localeValue} callBack={handleLocaleChange} />
+              <Language
+                value={localeValue}
+                callBack={handleLocaleChange}
+                localeValue={localeValue}
+              />
             </Container>
           </DialogContent>
           <DialogActions>
             <Button autoFocus onClick={handleSave} color={colorValue}>
-              Save changes
+              {language.saveChanges}
             </Button>
           </DialogActions>
         </Dialog>
       </div>
     </Tooltip>
+
   );
 }

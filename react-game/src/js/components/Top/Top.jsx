@@ -10,36 +10,40 @@ import { Tooltip } from '@material-ui/core';
 
 import SettingsMenu from './SettingsMenu/SettingsMenu';
 
+import { LOCALE } from '../../constants/locale';
+
 const makeStyleFunc = makeStyles({
   title: { flexGrow: 1 },
 });
 
 export default function Top(props) {
   const style = makeStyleFunc();
-  const { settings } = props;
+  const { data } = props;
+  const { settings } = data;
   const { color } = settings;
+  const locale = LOCALE[settings.locale];
 
   return (
     <div className={style.root}>
       <AppBar position="static" color="inherit">
         <Toolbar>
           <Typography variant="h6" className={style.title} color={color}>
-            Eye-Test Game
+            {locale.appName}
           </Typography>
 
-          <Tooltip title="Auto Play">
-            <IconButton edge="start" color={color} variant="outlined" aria-label="Auto Play">
+          <Tooltip title={locale.autoPlay}>
+            <IconButton edge="start" color={color} variant="outlined" aria-label={locale.autoPlay}>
               <PlayCircleOutlineIcon />
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="High Score">
-            <IconButton edge="start" color={color} aria-label="High Score">
+          <Tooltip title={locale.highScore}>
+            <IconButton edge="start" color={color} aria-label={locale.highScore}>
               <AssignmentIcon />
             </IconButton>
           </Tooltip>
 
-          <SettingsMenu settings={settings} />
+          <SettingsMenu data={data} />
         </Toolbar>
       </AppBar>
     </div>

@@ -17,7 +17,8 @@ const makeStyleFunc = makeStyles({
 
 export default function Bottom(props) {
   const style = makeStyleFunc();
-  const { settings } = props;
+  const { data } = props;
+  const { settings } = data;
   const { color } = settings;
   return (
     <div className={style.root}>
