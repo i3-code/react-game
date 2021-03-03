@@ -24,6 +24,8 @@ export const LOCALE = {
     score: 'Score',
     level: 'Level',
     lives: 'Lives',
+    gameOver: 'Game Over',
+    close: 'close',
   },
   ru: {
     appName: 'Тест-глаз Игра',
@@ -50,6 +52,8 @@ export const LOCALE = {
     score: 'Очки',
     level: 'Уровень',
     lives: 'Жизни',
+    gameOver: 'Конец игры',
+    close: 'закрыть',
   },
 };
 

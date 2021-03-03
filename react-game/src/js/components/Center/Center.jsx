@@ -1,11 +1,20 @@
 import React from 'react';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import { Button, Typography } from '@material-ui/core';
 
 import GameStepper from './GameStepper/GameStepper';
 import Board from './Board/Board';
 import GameInfo from './GameInfo/GameInfo';
 
 import { loadSettings, saveSettings } from '../../utils/storage';
+
+import { LOCALE } from '../../constants/locale';
 
 import wrongSound from '../../../assets/sounds/wrong.mp3';
 import correctSound from '../../../assets/sounds/correct.mp3';
@@ -24,8 +33,12 @@ function playSound(src) {
   };
 }
 
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} { ...props } />);
+
 export default function Center(props) {
   const { appSettings } = props;
+  const locale = LOCALE[appSettings.locale];
+
   const settings = loadSettings();
   const {
     level,
@@ -35,6 +48,30 @@ export default function Center(props) {
   const [gameLevel, setGameLevel] = React.useState(level);
   const [gameLives, setGameLives] = React.useState(lives);
   const [gameScore, setGameScore] = React.useState(score);
+
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => {
+    const newLives = 3;
+    const newLevel = 1;
+    const newScore = 0;
+    if (newLevel !== gameLevel) {
+      setGameLevel(newLevel);
+      saveSettings({ level: newLevel });
+    }
+
+    if (newLives !== gameLives) {
+      setGameLives(newLives);
+      saveSettings({ lives: newLives });
+    }
+
+    if (newScore !== gameScore) {
+      setGameScore(newScore);
+      saveSettings({ score: newScore });
+    }
+    setOpen(false);
+  };
 
   const handleGameLevelChange = (status) => {
     const diffSettings = loadSettings();
@@ -50,13 +87,11 @@ export default function Center(props) {
     if (status === 'wrong') {
       newLives -= 1;
       if (newLives - difficulty <= 0) {
-        newLives = 3;
-        newLevel = 1;
-        newScore = 0;
         playSound(failureSound);
-      } else {
-        playSound(wrongSound);
+        handleOpen();
+        return;
       }
+      playSound(wrongSound);
     }
 
     if (newLevel !== gameLevel) {
@@ -94,6 +129,35 @@ export default function Center(props) {
       <Paper className="game-stepper" elevation={3}>
         <GameStepper gameLevel={gameLevel} appSettings={appSettings} />
       </Paper>
+      <Dialog
+        open={open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={handleClose}
+      >
+        <DialogTitle id="alert-dialog-slide-title">{locale.gameOver}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-slide-description">
+            <Typography>
+              {locale.score}
+              :
+              &nbsp;
+              {gameScore}
+            </Typography>
+            <Typography>
+              {locale.level}
+              :
+              &nbsp;
+              {gameLevel}
+            </Typography>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            {locale.close}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 }
