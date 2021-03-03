@@ -75,10 +75,14 @@ export default function Center(props) {
     }
   };
 
+  const diffSettings = loadSettings();
+  const { difficulty } = diffSettings;
+
   const gameStats = {
     level: gameLevel,
     lives: gameLives,
     score: gameScore,
+    difficulty,
   };
 
   return (

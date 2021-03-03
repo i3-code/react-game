@@ -13,7 +13,12 @@ const makeStyleFunc = makeStyles({
 
 export default function GameInfo(props) {
   const { appSettings, gameStats } = props;
-  const { level, lives, score } = gameStats;
+  const {
+    level,
+    lives,
+    score,
+    difficulty,
+  } = gameStats;
 
   const locale = LOCALE[appSettings.locale];
 
@@ -38,7 +43,7 @@ export default function GameInfo(props) {
           {locale.lives}
           :
           &nbsp;
-          {lives}
+          {lives - difficulty}
         </Typography>
       </Paper>
     </div>
