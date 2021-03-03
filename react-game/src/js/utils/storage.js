@@ -1,4 +1,4 @@
-const cookieVersion = 1;
+const cookieVersion = 2;
 const cookieName = 'react-game-settings-2021q1';
 
 export function loadSettings() {
