@@ -3,7 +3,6 @@ import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Button, Container, Typography } from '@material-ui/core';
@@ -138,22 +137,20 @@ export default function Center(props) {
       >
         <DialogTitle>{locale.gameOver}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            <Container>
-              <Typography>
-                {locale.score}
-                :
-                &nbsp;
-                {gameScore}
-              </Typography>
-              <Typography>
-                {locale.level}
-                :
-                &nbsp;
-                {gameLevel}
-              </Typography>
-            </Container>
-          </DialogContentText>
+          <Container>
+            <Typography>
+              {locale.score}
+              :
+              &nbsp;
+              {gameScore}
+            </Typography>
+            <Typography>
+              {locale.level}
+              :
+              &nbsp;
+              {gameLevel}
+            </Typography>
+          </Container>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
