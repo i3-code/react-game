@@ -6,7 +6,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import { Button, Typography } from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 
 import GameStepper from './GameStepper/GameStepper';
 import Board from './Board/Board';
@@ -33,7 +33,8 @@ function playSound(src) {
   };
 }
 
-const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} { ...props } />);
+// eslint-disable-next-line react/jsx-props-no-spreading
+const Transition = React.forwardRef((props, ref) => <Slide direction="up" ref={ref} {...props} />);
 
 export default function Center(props) {
   const { appSettings } = props;
@@ -135,21 +136,23 @@ export default function Center(props) {
         keepMounted
         onClose={handleClose}
       >
-        <DialogTitle id="alert-dialog-slide-title">{locale.gameOver}</DialogTitle>
+        <DialogTitle>{locale.gameOver}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-slide-description">
-            <Typography>
-              {locale.score}
-              :
-              &nbsp;
-              {gameScore}
-            </Typography>
-            <Typography>
-              {locale.level}
-              :
-              &nbsp;
-              {gameLevel}
-            </Typography>
+          <DialogContentText>
+            <Container>
+              <Typography>
+                {locale.score}
+                :
+                &nbsp;
+                {gameScore}
+              </Typography>
+              <Typography>
+                {locale.level}
+                :
+                &nbsp;
+                {gameLevel}
+              </Typography>
+            </Container>
           </DialogContentText>
         </DialogContent>
         <DialogActions>
