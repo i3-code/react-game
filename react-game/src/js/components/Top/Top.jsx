@@ -18,10 +18,9 @@ const makeStyleFunc = makeStyles({
 
 export default function Top(props) {
   const style = makeStyleFunc();
-  const { data } = props;
-  const { settings } = data;
-  const { color } = settings;
-  const locale = LOCALE[settings.locale];
+  const { appSettings, callBacks } = props;
+  const { color } = appSettings;
+  const locale = LOCALE[appSettings.locale];
 
   return (
     <div className={style.root}>
@@ -43,7 +42,7 @@ export default function Top(props) {
             </IconButton>
           </Tooltip>
 
-          <SettingsMenu data={data} />
+          <SettingsMenu appSettings={appSettings} callBacks={callBacks} />
         </Toolbar>
       </AppBar>
     </div>

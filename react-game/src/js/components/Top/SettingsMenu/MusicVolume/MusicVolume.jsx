@@ -29,12 +29,11 @@ function VolumeButton(props) {
 
 export default function MusicVolume(props) {
   const classes = useStyles();
-
   const {
-    value,
-    callBack,
     color,
     localeValue,
+    value,
+    callBack,
   } = props;
   const locale = LOCALE[localeValue];
   const [volume, setVolume] = React.useState(0);

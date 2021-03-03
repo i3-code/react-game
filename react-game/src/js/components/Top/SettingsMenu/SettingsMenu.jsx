@@ -17,6 +17,9 @@ import MusicVolume from './MusicVolume/MusicVolume';
 import Difficulty from './Difficulty/Difficulty';
 import Color from './Color/Color';
 import Language from './Language/Language';
+import Player from './Player';
+
+import { loadSettings, saveSettings } from '../../../utils/storage';
 
 import { LOCALE } from '../../../constants/locale';
 
@@ -69,22 +72,33 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 export default function SettingsMenu(props) {
-  const [open, setOpen] = React.useState(false);
-  const { data } = props;
-  const { settings, callBacks } = data;
-  const {
-    sound,
-    music,
-    difficulty,
-    color,
-    locale,
-  } = settings;
+  const { appSettings, callBacks } = props;
+  const { color, locale } = appSettings;
+  const settings = loadSettings();
+  const { sound, music, difficulty } = settings;
 
+  const [open, setOpen] = React.useState(false);
+  const [soundVolume, setSoundVolume] = React.useState(sound);
+  const [musicVolume, setMusicVolume] = React.useState(music);
   const [difficultyValue, difficultySetValue] = React.useState(difficulty);
   const [colorValue, colorSetValue] = React.useState(color);
   const [localeValue, localeSetValue] = React.useState(locale);
 
   const language = LOCALE[localeValue];
+
+  const handleSoundChange = (event, newValue) => {
+    if (newValue !== null) {
+      setSoundVolume(newValue);
+      saveSettings({ sound: newValue });
+    }
+  };
+
+  const handleMusicChange = (event, newValue) => {
+    if (newValue !== null) {
+      setMusicVolume(newValue);
+      saveSettings({ music: newValue });
+    }
+  };
 
   const handleDifficultyChange = (event, newValue) => {
     if (newValue !== null) difficultySetValue(newValue);
@@ -108,65 +122,70 @@ export default function SettingsMenu(props) {
   };
 
   const handleSave = () => {
+    if (color !== colorValue) callBacks.color(colorValue);
+    if (locale !== localeValue) callBacks.locale(localeValue);
     const newSettings = {
       difficulty: difficultyValue,
       color: colorValue,
       locale: localeValue,
     };
-    Object.entries(newSettings).forEach(([type, value]) => callBacks.dispatch({ type, value }));
+    saveSettings(newSettings);
     setOpen(false);
   };
 
   const style = makeStyleFunc();
 
   return (
-    <Tooltip title={language.settings}>
-      <div>
-        <IconButton edge="start" color={color} aria-label="Settings" onClick={handleClickOpen}>
-          <SettingsIcon />
-        </IconButton>
-        <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="xs">
-          <DialogTitle id="customized-dialog-title" onClose={handleClose} color={colorValue}>
-            {language.settings}
-          </DialogTitle>
-          <DialogContent dividers>
-            <Container>
-              <SoundVolume
-                value={sound}
-                callBack={callBacks.sound}
-                color={colorValue}
-                localeValue={localeValue}
-              />
-              <MusicVolume
-                value={music}
-                callBack={callBacks.music}
-                color={colorValue}
-                localeValue={localeValue}
-              />
-              <Divider className={style.divider} />
-              <Difficulty
-                value={difficultyValue}
-                callBack={handleDifficultyChange}
-                localeValue={localeValue}
-              />
-              <Divider className={style.divider} />
-              <Color value={colorValue} callBack={handleColorChange} localeValue={localeValue} />
-              <Divider className={style.divider} />
-              <Language
-                value={localeValue}
-                callBack={handleLocaleChange}
-                localeValue={localeValue}
-              />
-            </Container>
-          </DialogContent>
-          <DialogActions>
-            <Button autoFocus onClick={handleSave} color={colorValue}>
-              {language.saveChanges}
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
-    </Tooltip>
+    <div>
+      <Tooltip title={language.settings}>
+        <div>
+          <IconButton edge="start" color={color} aria-label="Settings" onClick={handleClickOpen}>
+            <SettingsIcon />
+          </IconButton>
+          <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open} fullWidth maxWidth="xs">
+            <DialogTitle id="customized-dialog-title" onClose={handleClose} color={colorValue}>
+              {language.settings}
+            </DialogTitle>
+            <DialogContent dividers>
+              <Container>
+                <SoundVolume
+                  value={soundVolume}
+                  callBack={handleSoundChange}
+                  color={colorValue}
+                  localeValue={localeValue}
+                />
+                <MusicVolume
+                  value={musicVolume}
+                  callBack={handleMusicChange}
+                  color={colorValue}
+                  localeValue={localeValue}
+                />
+                <Divider className={style.divider} />
+                <Difficulty
+                  value={difficultyValue}
+                  callBack={handleDifficultyChange}
+                  localeValue={localeValue}
+                />
+                <Divider className={style.divider} />
+                <Color value={colorValue} callBack={handleColorChange} localeValue={localeValue} />
+                <Divider className={style.divider} />
+                <Language
+                  value={localeValue}
+                  callBack={handleLocaleChange}
+                  localeValue={localeValue}
+                />
+              </Container>
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus onClick={handleSave} color={colorValue}>
+                {language.saveChanges}
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      </Tooltip>
+      <Player music={musicVolume} />
+    </div>
 
   );
 }

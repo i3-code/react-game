@@ -1,72 +1,39 @@
-import React, { useEffect, useReducer } from 'react';
-import useSound from 'use-sound';
-
-import musicFile from '../assets/sounds/music.mp3';
+import React from 'react';
 
 import Top from './components/Top/Top';
 import Center from './components/Center/Center';
 import Bottom from './components/Bottom/Bottom';
 
-const cookieVersion = 1;
-const settings = JSON.parse(localStorage.getItem('react-game-settings-2021q1')) || {
-  sound: 20,
-  music: 10,
-  difficulty: 0,
-  color: 'primary',
-  locale: 'en',
-  level: 0,
-  score: 0,
-  time: 0,
-  lives: 0,
-  cookieVersion,
-};
-const savedVersion = settings.cookieVersion;
-if (savedVersion !== cookieVersion) localStorage.clear();
-
-function reducer(state, action) {
-  const { type, value } = action;
-  if (!type) throw new Error('Unknown action');
-  const newState = {
-    ...state,
-    [type]: value,
-  };
-  localStorage.setItem('react-game-settings-2021q1', JSON.stringify(newState));
-  return newState;
-}
+import { loadSettings } from './utils/storage';
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, settings);
-  const { music } = state;
+  const settings = loadSettings();
+  const { color, locale } = settings;
+  const [colorValue, colorSetValue] = React.useState(color);
+  const [localeValue, localeSetValue] = React.useState(locale);
 
-  const [play, { pause, isPlaying }] = useSound(musicFile, {
-    volume: music / 100,
-    loop: true,
-  });
+  const appSettings = { color: colorValue, locale: localeValue };
 
-  useEffect(() => {
-    if (!music) pause();
-    if (music && !isPlaying) play();
-  });
+  const handleColorChange = (newValue) => {
+    if (newValue !== null) colorSetValue(newValue);
+  };
+
+  const handleLocaleChange = (newValue) => {
+    if (newValue !== null) localeSetValue(newValue);
+  };
 
   const callBacks = {
-    sound: (event, value) => dispatch({ type: 'sound', value }),
-    music: (event, value) => dispatch({ type: 'music', value }),
-    difficulty: (event, value) => dispatch({ type: 'difficulty', value }),
-    color: (event, value) => dispatch({ type: 'color', value }),
-    locale: (event, value) => dispatch({ type: 'locale', value }),
-    dispatch,
+    color: handleColorChange,
+    locale: handleLocaleChange,
   };
 
-  const appSettings = {
-    settings: state,
-    callBacks,
-  };
-
+  console.log('render - App');
   return (
     <div className="app">
-      <Top data={appSettings} />
-      <Center />
-      <Bottom data={appSettings} />
+      <Top appSettings={appSettings} callBacks={callBacks} />
+      <Center appSettings={appSettings} />
+      <Bottom appSettings={appSettings} />
+
     </div>
   );
 }

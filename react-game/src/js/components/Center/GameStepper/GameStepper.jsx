@@ -99,8 +99,9 @@ const useStyles = makeStyles({
   },
 });
 
-function getSteps() {
-  return ['bat', 'mole', 'dog', 'cat', 'tiger', 'hawk'];
+function getSteps(locale) {
+  if (locale === 'en') return ['bat', 'mole', 'dog', 'cat', 'tiger', 'hawk'];
+  return ['мышь', 'крот', 'собака', 'кошка', 'тигр', 'орёл'];
 }
 
 function getStepContent(step) {
@@ -122,10 +123,22 @@ function getStepContent(step) {
   }
 }
 
-export default function GameStepper() {
+function getActiveStep(level) {
+  if (level < 5) return 0;
+  if (level < 10) return 1;
+  if (level < 15) return 2;
+  if (level < 20) return 3;
+  if (level < 25) return 4;
+  if (level < 30) return 5;
+  return 6;
+}
+
+export default function GameStepper(props) {
   const classes = useStyles();
-  const activeStep = 0;
-  const steps = getSteps();
+  const { gameLevel, appSettings } = props;
+  const { locale } = appSettings;
+  const activeStep = getActiveStep(gameLevel);
+  const steps = getSteps(locale);
 
   return (
     <Paper className={classes.root} elevation={3}>
