@@ -3,6 +3,8 @@ import Paper from '@material-ui/core/Paper';
 
 import { makeStyles, Typography } from '@material-ui/core';
 
+import { LOCALE } from '../../../constants/locale';
+
 const makeStyleFunc = makeStyles({
   root: {
     padding: '4px',
@@ -10,8 +12,10 @@ const makeStyleFunc = makeStyles({
 });
 
 export default function GameInfo(props) {
-  const { gameStats } = props;
+  const { appSettings, gameStats } = props;
   const { level, lives, score } = gameStats;
+
+  const locale = LOCALE[appSettings.locale];
 
   const style = makeStyleFunc();
 
@@ -19,17 +23,20 @@ export default function GameInfo(props) {
     <div>
       <Paper elevation={3} className={style.root}>
         <Typography>
-          Score:
+          {locale.score}
+          :
           &nbsp;
           {score}
         </Typography>
         <Typography>
-          Level:
+          {locale.level}
+          :
           &nbsp;
           {level}
         </Typography>
         <Typography>
-          Lives:
+          {locale.lives}
+          :
           &nbsp;
           {lives}
         </Typography>

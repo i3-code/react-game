@@ -85,7 +85,7 @@ export default function Center(props) {
     <div className="center">
       <div className="game">
         <Board gameLevel={gameLevel} callBack={handleGameLevelChange} />
-        <GameInfo className="game-info" gameStats={gameStats} />
+        <GameInfo className="game-info" appSettings={appSettings} gameStats={gameStats} />
       </div>
       <Paper className="game-stepper" elevation={3}>
         <GameStepper gameLevel={gameLevel} appSettings={appSettings} />

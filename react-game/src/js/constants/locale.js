@@ -21,6 +21,9 @@ export const LOCALE = {
     enableMusic: 'Enable Music',
     muteSound: 'Mute Sound',
     enableSound: 'Enable Sound',
+    score: 'Score',
+    level: 'Level',
+    lives: 'Lives',
   },
   ru: {
     appName: 'Тест-глаз Игра',
@@ -44,6 +47,9 @@ export const LOCALE = {
     enableMusic: 'Включить Музыку',
     muteSound: 'Выключить Звук',
     enableSound: 'Включить Звук',
+    score: 'Очки',
+    level: 'Уровень',
+    lives: 'Жизни',
   },
 };
 
