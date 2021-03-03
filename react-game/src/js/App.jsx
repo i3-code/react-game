@@ -27,7 +27,6 @@ export default function App() {
     locale: handleLocaleChange,
   };
 
-  console.log('render - App');
   return (
     <div className="app">
       <Top appSettings={appSettings} callBacks={callBacks} />

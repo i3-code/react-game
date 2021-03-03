@@ -11,7 +11,7 @@ import GameStepper from './GameStepper/GameStepper';
 import Board from './Board/Board';
 import GameInfo from './GameInfo/GameInfo';
 
-import { loadSettings, saveSettings } from '../../utils/storage';
+import { loadSettings, saveSettings, saveScore } from '../../utils/storage';
 
 import { LOCALE } from '../../constants/locale';
 
@@ -48,30 +48,9 @@ export default function Center(props) {
   const [gameLevel, setGameLevel] = React.useState(level);
   const [gameLives, setGameLives] = React.useState(lives);
   const [gameScore, setGameScore] = React.useState(score);
-
   const [open, setOpen] = React.useState(false);
 
   const handleOpen = () => setOpen(true);
-  const handleClose = () => {
-    const newLives = 3;
-    const newLevel = 1;
-    const newScore = 0;
-    if (newLevel !== gameLevel) {
-      setGameLevel(newLevel);
-      saveSettings({ level: newLevel });
-    }
-
-    if (newLives !== gameLives) {
-      setGameLives(newLives);
-      saveSettings({ lives: newLives });
-    }
-
-    if (newScore !== gameScore) {
-      setGameScore(newScore);
-      saveSettings({ score: newScore });
-    }
-    setOpen(false);
-  };
 
   const handleGameLevelChange = (status) => {
     const diffSettings = loadSettings();
@@ -112,6 +91,29 @@ export default function Center(props) {
 
   const diffSettings = loadSettings();
   const { difficulty } = diffSettings;
+
+  const handleClose = () => {
+    saveScore({ score: gameScore, level: gameLevel, difficulty });
+    const newLives = 3;
+    const newLevel = 1;
+    const newScore = 0;
+
+    if (newLevel !== gameLevel) {
+      setGameLevel(newLevel);
+      saveSettings({ level: newLevel });
+    }
+
+    if (newLives !== gameLives) {
+      setGameLives(newLives);
+      saveSettings({ lives: newLives });
+    }
+
+    if (newScore !== gameScore) {
+      setGameScore(newScore);
+      saveSettings({ score: newScore });
+    }
+    setOpen(false);
+  };
 
   const gameStats = {
     level: gameLevel,

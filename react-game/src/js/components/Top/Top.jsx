@@ -5,10 +5,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
-import AssignmentIcon from '@material-ui/icons/Assignment';
 import { Tooltip } from '@material-ui/core';
 
 import SettingsMenu from './SettingsMenu/SettingsMenu';
+import HighScore from './HighScore/HighScore';
 
 import { LOCALE } from '../../constants/locale';
 
@@ -36,12 +36,7 @@ export default function Top(props) {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title={locale.highScore}>
-            <IconButton edge="start" color={color} aria-label={locale.highScore}>
-              <AssignmentIcon />
-            </IconButton>
-          </Tooltip>
-
+          <HighScore appSettings={appSettings} callBacks={callBacks} />
           <SettingsMenu appSettings={appSettings} callBacks={callBacks} />
         </Toolbar>
       </AppBar>

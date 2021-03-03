@@ -59,6 +59,9 @@ a {
   justify-content: space-evenly;
   height: 100%;
   padding: 4px;
+  &-table {
+    min-width: 350px;
+  }
 }
 
 .MuiStepLabel-label	{
