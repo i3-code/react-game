@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -49,6 +50,8 @@ export default function SoundVolume(props) {
       callBack(event, 0);
     }
   };
+
+  useHotkeys('shift+s', () => handleVolumeSwitch('event'));
 
   return (
     <div className={classes.root}>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -79,6 +80,8 @@ export default function SettingsMenu(props) {
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const difficulty = ['easy', 'normal', 'hard'];
+
+  useHotkeys('shift+h', () => handleClickOpen());
 
   return (
     <div>

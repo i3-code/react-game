@@ -28,8 +28,22 @@ const makeStyleFunc = makeStyles({
 export default function Board(props) {
   const { gameLevel, callBack } = props;
 
+  const cubeWrongRef = React.useRef();
+  const cubeRightRef = React.useRef();
+
   const handleCubeClick = () => callBack('wrong');
   const handleCubeSpecialClick = () => callBack('right');
+
+  const simulateRightClick = () => {
+    cubeRightRef.current.click();
+  };
+
+  const simulateWrongClick = () => {
+    cubeWrongRef?.current?.click();
+  };
+
+  if (!window.rightClick) window.rightClick = simulateRightClick;
+  if (!window.wrongClick) window.wrongClick = simulateWrongClick;
 
   const size = levelGrid(gameLevel);
   const gridSize = size * size;
@@ -43,6 +57,7 @@ export default function Board(props) {
       {grid.map((_, index) => (
         <Paper
           key={`cube-${index + 1}`}
+          ref={(index === special) ? cubeRightRef : cubeWrongRef}
           className={(index === special) ? `${style.cube} ${style.special}` : style.cube}
           onClick={(index === special) ? handleCubeSpecialClick : handleCubeClick}
         />

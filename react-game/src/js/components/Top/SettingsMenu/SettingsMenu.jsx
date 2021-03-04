@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHotkeys } from 'react-hotkeys-hook';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -134,6 +135,8 @@ export default function SettingsMenu(props) {
   };
 
   const style = makeStyleFunc();
+
+  useHotkeys('shift+t', () => handleClickOpen());
 
   return (
     <div>

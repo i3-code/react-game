@@ -89,11 +89,7 @@ export default function Center(props) {
     }
   };
 
-  const diffSettings = loadSettings();
-  const { difficulty } = diffSettings;
-
-  const handleClose = () => {
-    saveScore({ score: gameScore, level: gameLevel, difficulty });
+  const resetLevel = () => {
     const newLives = 3;
     const newLevel = 1;
     const newScore = 0;
@@ -112,6 +108,16 @@ export default function Center(props) {
       setGameScore(newScore);
       saveSettings({ score: newScore });
     }
+  };
+
+  if (!window.resetLevel) window.resetLevel = resetLevel;
+
+  const diffSettings = loadSettings();
+  const { difficulty } = diffSettings;
+
+  const handleClose = () => {
+    saveScore({ score: gameScore, level: gameLevel, difficulty });
+    resetLevel();
     setOpen(false);
   };
 
