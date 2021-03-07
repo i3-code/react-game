@@ -27,6 +27,7 @@ export const LOCALE = {
     lives: 'Lives',
     gameOver: 'Game Over',
     close: 'close',
+    steps: ['bat', 'mole', 'dog', 'cat', 'tiger', 'hawk'],
   },
   ru: {
     appName: 'Тест-глаз Игра',
@@ -56,6 +57,7 @@ export const LOCALE = {
     lives: 'Жизни',
     gameOver: 'Конец игры',
     close: 'закрыть',
+    steps: ['мышь', 'крот', 'собака', 'кошка', 'тигр', 'орёл'],
   },
 };
 

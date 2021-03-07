@@ -14,20 +14,22 @@ import CatIcon from '../../../../assets/images/ac_4.svg';
 import TigerIcon from '../../../../assets/images/ac_5.svg';
 import HawkIcon from '../../../../assets/images/ac_6.svg';
 
+import { LOCALE } from '../../../constants/locale';
+
+const gradient = 'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)';
+
 const ColorlibConnector = withStyles({
   alternativeLabel: {
     top: 22,
   },
   active: {
     '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+      backgroundImage: gradient, boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
     },
   },
   completed: {
     '& $line': {
-      backgroundImage:
-        'linear-gradient( 95deg,rgb(242,113,33) 0%,rgb(233,64,87) 50%,rgb(138,35,135) 100%)',
+      backgroundImage: gradient,
     },
   },
   line: {
@@ -51,13 +53,10 @@ const useColorlibStepIconStyles = makeStyles({
     alignItems: 'center',
   },
   active: {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
-    boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
+    backgroundImage: gradient, boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   },
   completed: {
-    backgroundImage:
-      'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
+    backgroundImage: gradient,
   },
 });
 
@@ -99,11 +98,6 @@ const useStyles = makeStyles({
   },
 });
 
-function getSteps(locale) {
-  if (locale === 'en') return ['bat', 'mole', 'dog', 'cat', 'tiger', 'hawk'];
-  return ['мышь', 'крот', 'собака', 'кошка', 'тигр', 'орёл'];
-}
-
 function getStepContent(step) {
   switch (step) {
     case 0:
@@ -136,9 +130,9 @@ function getActiveStep(level) {
 export default function GameStepper(props) {
   const classes = useStyles();
   const { gameLevel, appSettings } = props;
-  const { locale } = appSettings;
+  const locale = LOCALE[appSettings.locale];
+  const { steps } = locale;
   const activeStep = getActiveStep(gameLevel);
-  const steps = getSteps(locale);
 
   return (
     <Paper className={classes.root} elevation={3}>
