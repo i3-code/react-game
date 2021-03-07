@@ -23,6 +23,7 @@ import Paper from '@material-ui/core/Paper';
 import { loadScore } from '../../../utils/storage';
 
 import { LOCALE } from '../../../constants/locale';
+import { DIFFICULTY } from '../../../constants';
 
 const styles = (theme) => ({
   root: {
@@ -79,7 +80,6 @@ export default function SettingsMenu(props) {
 
   const handleClickOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const difficulty = ['easy', 'normal', 'hard'];
 
   useHotkeys('shift+h', () => handleClickOpen());
 
@@ -114,7 +114,7 @@ export default function SettingsMenu(props) {
                           </TableCell>
                           <TableCell align="right">{row.score}</TableCell>
                           <TableCell align="right">{row.level}</TableCell>
-                          <TableCell align="right">{language[difficulty[row.difficulty]]}</TableCell>
+                          <TableCell align="right">{language[DIFFICULTY[row.difficulty]]}</TableCell>
                         </TableRow>
                       ))}
                     </TableBody>

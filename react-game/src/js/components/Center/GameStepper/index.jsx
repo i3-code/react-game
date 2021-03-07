@@ -64,13 +64,14 @@ function ColorlibStepIcon(props) {
   const classes = useColorlibStepIconStyles();
   const { active, completed, icon } = props;
 
+  const iconSize = 25;
   const icons = {
-    1: <Icon><img src={BatIcon} height={25} width={25} alt="bat" /></Icon>,
-    2: <Icon><img src={MoleIcon} height={25} width={25} alt="mole" /></Icon>,
-    3: <Icon><img src={DogIcon} height={25} width={25} alt="dog" /></Icon>,
-    4: <Icon><img src={CatIcon} height={25} width={25} alt="cat" /></Icon>,
-    5: <Icon><img src={TigerIcon} height={25} width={25} alt="tiger" /></Icon>,
-    6: <Icon><img src={HawkIcon} height={25} width={25} alt="hawk" /></Icon>,
+    1: <img src={BatIcon} height={iconSize} width={iconSize} alt="bat" />,
+    2: <img src={MoleIcon} height={iconSize} width={iconSize} alt="mole" />,
+    3: <img src={DogIcon} height={iconSize} width={iconSize} alt="dog" />,
+    4: <img src={CatIcon} height={iconSize} width={iconSize} alt="cat" />,
+    5: <img src={TigerIcon} height={iconSize} width={iconSize} alt="tiger" />,
+    6: <img src={HawkIcon} height={iconSize} width={iconSize} alt="hawk" />,
   };
 
   return (
@@ -80,7 +81,9 @@ function ColorlibStepIcon(props) {
         [classes.completed]: completed,
       })}
     >
-      {icons[String(icon)]}
+      <Icon>
+        {icons[icon]}
+      </Icon>
     </div>
   );
 }
@@ -99,32 +102,15 @@ const useStyles = makeStyles({
 });
 
 function getStepContent(step) {
-  switch (step) {
-    case 0:
-      return '0-4';
-    case 1:
-      return '5-9';
-    case 2:
-      return '10-14';
-    case 3:
-      return '15-19';
-    case 4:
-      return '20-24';
-    case 5:
-      return '25-29';
-    default:
-      return '29+';
-  }
-}
-
-function getActiveStep(level) {
-  if (level < 5) return 0;
-  if (level < 10) return 1;
-  if (level < 15) return 2;
-  if (level < 20) return 3;
-  if (level < 25) return 4;
-  if (level < 30) return 5;
-  return 6;
+  const stepContent = {
+    0: '0-4',
+    1: '5-9',
+    2: '10-14',
+    3: '15-19',
+    4: '20-24',
+    5: '25-29',
+  };
+  return stepContent[step] || '29+';
 }
 
 export default function GameStepper(props) {
@@ -132,7 +118,7 @@ export default function GameStepper(props) {
   const { gameLevel, appSettings } = props;
   const locale = LOCALE[appSettings.locale];
   const { steps } = locale;
-  const activeStep = getActiveStep(gameLevel);
+  const activeStep = Math.floor(gameLevel / 5);
 
   return (
     <Paper className={classes.root} elevation={3}>

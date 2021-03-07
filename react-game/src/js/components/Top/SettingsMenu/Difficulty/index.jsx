@@ -5,6 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 
 import { LOCALE } from '../../../../constants/locale';
+import { DIFFICULTY } from '../../../../constants';
 
 export default function Difficulty(props) {
   const { value, callBack, localeValue } = props;
@@ -22,9 +23,15 @@ export default function Difficulty(props) {
           onChange={callBack}
           aria-label={locale.difficulty}
         >
-          <ToggleButton value={0} aria-label={locale.easy}>{locale.easy}</ToggleButton>
-          <ToggleButton value={1} aria-label={locale.normal}>{locale.normal}</ToggleButton>
-          <ToggleButton value={2} aria-label={locale.hard}>{locale.hard}</ToggleButton>
+          {DIFFICULTY.map((item, index) => (
+            <ToggleButton
+              key={item}
+              value={index}
+              aria-label={locale[item]}
+            >
+              {locale[item]}
+            </ToggleButton>
+          ))}
         </ToggleButtonGroup>
       </Container>
     </div>
