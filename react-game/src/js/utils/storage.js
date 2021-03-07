@@ -27,18 +27,8 @@ export function saveSettings(settingsPatch = {}) {
 }
 
 export function loadScore() {
-  const score = JSON.parse(localStorage.getItem(scoreName)) || [
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-    { score: 0, level: 1, difficulty: 0 },
-  ];
+  const score = JSON.parse(localStorage.getItem(scoreName))
+  || [...Array(10)].map(() => ({ score: 0, level: 1, difficulty: 0 }));
   return score;
 }
 
