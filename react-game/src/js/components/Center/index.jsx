@@ -7,9 +7,9 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
 import { Button, Container, Typography } from '@material-ui/core';
 
-import GameStepper from './GameStepper/GameStepper';
-import Board from './Board/Board';
-import GameInfo from './GameInfo/GameInfo';
+import GameStepper from './GameStepper';
+import Board from './Board';
+import GameInfo from './GameInfo';
 
 import { loadSettings, saveSettings, saveScore } from '../../utils/storage';
 
@@ -52,6 +52,16 @@ export default function Center(props) {
 
   const handleOpen = () => setOpen(true);
 
+  const saveGameSettings = (newLives = 3, newLevel = 1, newScore = 0) => {
+    setGameLevel(newLevel);
+    setGameLives(newLives);
+    setGameScore(newScore);
+    saveSettings({
+      lives: newLives,
+      level: newLevel,
+      score: newScore,
+    });
+  };
   const handleGameLevelChange = (status) => {
     const diffSettings = loadSettings();
     const { difficulty } = diffSettings;
@@ -73,51 +83,17 @@ export default function Center(props) {
       playSound(wrongSound);
     }
 
-    if (newLevel !== gameLevel) {
-      setGameLevel(newLevel);
-      saveSettings({ level: newLevel });
-    }
-
-    if (newLives !== gameLives) {
-      setGameLives(newLives);
-      saveSettings({ lives: newLives });
-    }
-
-    if (newScore !== gameScore) {
-      setGameScore(newScore);
-      saveSettings({ score: newScore });
-    }
+    saveGameSettings(newLives, newLevel, newScore);
   };
 
-  const resetLevel = () => {
-    const newLives = 3;
-    const newLevel = 1;
-    const newScore = 0;
-
-    if (newLevel !== gameLevel) {
-      setGameLevel(newLevel);
-      saveSettings({ level: newLevel });
-    }
-
-    if (newLives !== gameLives) {
-      setGameLives(newLives);
-      saveSettings({ lives: newLives });
-    }
-
-    if (newScore !== gameScore) {
-      setGameScore(newScore);
-      saveSettings({ score: newScore });
-    }
-  };
-
-  if (!window.resetLevel) window.resetLevel = resetLevel;
+  if (!window.resetLevel) window.resetLevel = saveGameSettings;
 
   const diffSettings = loadSettings();
   const { difficulty } = diffSettings;
 
   const handleClose = () => {
     saveScore({ score: gameScore, level: gameLevel, difficulty });
-    resetLevel();
+    saveGameSettings();
     setOpen(false);
   };
 

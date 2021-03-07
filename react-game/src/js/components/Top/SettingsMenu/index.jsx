@@ -13,11 +13,11 @@ import { Divider, Tooltip } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Container from '@material-ui/core/Container';
 
-import SoundVolume from './SoundVolume/SoundVolume';
-import MusicVolume from './MusicVolume/MusicVolume';
-import Difficulty from './Difficulty/Difficulty';
-import Color from './Color/Color';
-import Language from './Language/Language';
+import SoundVolume from './SoundVolume';
+import MusicVolume from './MusicVolume';
+import Difficulty from './Difficulty';
+import Color from './Color';
+import Language from './Language';
 import Player from './Player';
 
 import { loadSettings, saveSettings } from '../../../utils/storage';

@@ -34,15 +34,10 @@ export default function Board(props) {
   const handleCubeClick = () => callBack('wrong');
   const handleCubeSpecialClick = () => callBack('right');
 
-  const simulateRightClick = () => {
-    cubeRightRef.current.click();
-  };
-
   const simulateWrongClick = () => {
-    cubeWrongRef?.current?.click();
+    cubeWrongRef.current?.click();
   };
 
-  if (!window.rightClick) window.rightClick = simulateRightClick;
   if (!window.wrongClick) window.wrongClick = simulateWrongClick;
 
   const size = levelGrid(gameLevel);

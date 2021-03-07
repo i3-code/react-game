@@ -1,8 +1,8 @@
 import React from 'react';
 
-import Top from './components/Top/Top';
-import Center from './components/Center/Center';
-import Bottom from './components/Bottom/Bottom';
+import Top from './components/Top';
+import Center from './components/Center';
+import Bottom from './components/Bottom';
 
 import { loadSettings } from './utils/storage';
 

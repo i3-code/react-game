@@ -8,8 +8,8 @@ import IconButton from '@material-ui/core/IconButton';
 import PlayCircleOutlineIcon from '@material-ui/icons/PlayCircleOutline';
 import { Tooltip } from '@material-ui/core';
 
-import SettingsMenu from './SettingsMenu/SettingsMenu';
-import HighScore from './HighScore/HighScore';
+import SettingsMenu from './SettingsMenu';
+import HighScore from './HighScore';
 
 import { LOCALE } from '../../constants/locale';
 
