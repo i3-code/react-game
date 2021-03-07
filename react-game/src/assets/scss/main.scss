@@ -1,0 +1,69 @@
+@import "utils/_reset";
+@import "utils/_normalize";
+@import "utils/vars";
+@import "utils/mixins";
+
+html {
+  font-family: $mainFont;
+  font-size: $mainFontSize;
+  box-sizing: border-box;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+body {
+  min-width: 500px;
+  min-height: 500px;
+  background: linear-gradient(to top, #ece9e6, $default-color);
+  background-repeat: no-repeat;
+}
+
+img {
+  width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.hidden {
+  display: none;
+}
+
+.app {
+  height: 100vh;
+  min-height: 500px;
+  min-width: 500px;
+  padding: 0.5%;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.center {
+  height: 100%;
+  width: 80%;
+  margin: 10px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game {
+  display: flex;
+  justify-content: space-evenly;
+  height: 100%;
+  padding: 4px;
+  &-table {
+    min-width: 350px;
+  }
+}
+
+.MuiStepLabel-label	{
+  margin-top: 4px !important;
+}

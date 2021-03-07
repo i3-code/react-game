@@ -1,0 +1,12 @@
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET / HTTP/1.1" 200 668
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /main.css HTTP/1.1" 200 2655
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /js/main.js HTTP/1.1" 200 23659
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /js/vendors.js HTTP/1.1" 200 354771
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_1.svg HTTP/1.1" 200 6386
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_3.svg HTTP/1.1" 200 6782
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_2.svg HTTP/1.1" 200 11506
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_4.svg HTTP/1.1" 200 10614
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_5.svg HTTP/1.1" 200 10130
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/images/ac_6.svg HTTP/1.1" 200 5984
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /assets/sounds/music.mp3 HTTP/1.1" 200 6278790
+::1 - - [03/Mar/2021:18:08:41 +0000] "GET /favicon.ico HTTP/1.1" 200 226046
