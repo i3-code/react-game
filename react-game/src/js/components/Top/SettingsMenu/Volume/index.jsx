@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import Slider from '@material-ui/core/Slider';
 import { Tooltip } from '@material-ui/core';
+import MusicNoteIcon from '@material-ui/icons/MusicNote';
+import MusicOffIcon from '@material-ui/icons/MusicOff';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeOffIcon from '@material-ui/icons/VolumeOff';
 
@@ -16,11 +18,15 @@ const useStyles = makeStyles({
 });
 
 function VolumeButton(props) {
-  const { value, localeValue } = props;
+  const { value, localeValue, type } = props;
   const locale = LOCALE[localeValue];
+  let button = (value) ? <MusicNoteIcon /> : <MusicOffIcon />;
+  let tooltip = (value) ? locale.muteMusic : locale.enableMusic;
+  if (type === 'sound') {
+    button = (value) ? <VolumeDown /> : <VolumeOffIcon />;
+    tooltip = (value) ? locale.muteSound : locale.enableSound;
+  }
 
-  const button = (value) ? <VolumeDown /> : <VolumeOffIcon />;
-  const tooltip = (value) ? locale.muteSound : locale.enableSound;
   return (
     <Tooltip title={tooltip}>
       {button}
@@ -28,14 +34,14 @@ function VolumeButton(props) {
   );
 }
 
-export default function SoundVolume(props) {
+export default function Volume(props) {
   const classes = useStyles();
-
   const {
-    value,
-    callBack,
     color,
     localeValue,
+    value,
+    type,
+    callBack,
   } = props;
   const locale = LOCALE[localeValue];
   const [volume, setVolume] = React.useState(0);
@@ -51,17 +57,20 @@ export default function SoundVolume(props) {
     }
   };
 
-  useHotkeys('shift+s', () => handleVolumeSwitch('event'));
+  const hotKey = (type === 'music') ? 'shift+m' : 'shift+s';
+  useHotkeys(hotKey, () => handleVolumeSwitch('event'));
+
+  const label = (type === 'music') ? locale.musicVolume : locale.soundVolume;
 
   return (
     <div className={classes.root}>
       <Typography id="continuous-slider" gutterBottom>
-        {locale.soundVolume}
+        {label}
       </Typography>
       <Grid container spacing={2}>
         <Grid item>
           <IconButton color={color} aria-label="Volume" onClick={handleVolumeSwitch} size="small">
-            <VolumeButton value={value} localeValue={localeValue} />
+            <VolumeButton type={type} value={value} localeValue={localeValue} />
           </IconButton>
         </Grid>
         <Grid item xs>

@@ -13,8 +13,7 @@ import { Divider, Tooltip } from '@material-ui/core';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Container from '@material-ui/core/Container';
 
-import SoundVolume from './SoundVolume';
-import MusicVolume from './MusicVolume';
+import Volume from './Volume';
 import Difficulty from './Difficulty';
 import Color from './Color';
 import Language from './Language';
@@ -151,17 +150,19 @@ export default function SettingsMenu(props) {
             </DialogTitle>
             <DialogContent dividers>
               <Container>
-                <SoundVolume
+                <Volume
                   value={soundVolume}
                   callBack={handleSoundChange}
                   color={colorValue}
                   localeValue={localeValue}
+                  type="sound"
                 />
-                <MusicVolume
+                <Volume
                   value={musicVolume}
                   callBack={handleMusicChange}
                   color={colorValue}
                   localeValue={localeValue}
+                  type="music"
                 />
                 <Divider className={style.divider} />
                 <Difficulty
