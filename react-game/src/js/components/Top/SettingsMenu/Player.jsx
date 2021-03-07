@@ -14,7 +14,7 @@ export default function Player(props) {
   useEffect(() => {
     if (!music) pause();
     if (music && !isPlaying) play();
-  });
+  }, [music, isPlaying]);
 
   return <div />;
 }
