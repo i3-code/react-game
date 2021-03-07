@@ -22,7 +22,9 @@ const makeStyleFunc = makeStyles({
 function autoPlay() {
   if (window.resetLevel && window.wrongClick) {
     window.resetLevel();
-    setTimeout(() => {
+    if (window.autoPlayTimeOut) clearTimeout(window.autoPlayTimeOut);
+    if (!window.autoPlayTimeOuts) window.autoPlayTimeOuts = [];
+    window.autoPlayTimeOut = setTimeout(() => {
       const diffSettings = loadSettings();
       const {
         lives,
@@ -33,7 +35,8 @@ function autoPlay() {
       const target = lives - difficulty;
       if (score === 0 && level === 1) {
         for (let i = 1; i <= target; i += 1) {
-          setTimeout(window.wrongClick, 1000 * i);
+          if (window.autoPlayTimeOuts[i]) clearTimeout(window.autoPlayTimeOuts[i]);
+          window.autoPlayTimeOuts.push(setTimeout(window.wrongClick, 1000 * i));
         }
       }
     }, 1000);
